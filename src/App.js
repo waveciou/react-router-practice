@@ -5,6 +5,7 @@ import {
   BrowserRouter as Router,
   Switch,
   Route,
+  Redirect
   // Link,
   // useRouteMatch,
   // useParams
@@ -16,11 +17,16 @@ import Shop from './components/shop';
 import Menu from './components/menu';
 import RouteMonitor from './components/routeMonitor';
 
+/*
+  Redirect 是設定重新導向頁面，Hash 不會 Redirect，但是 Query 會
+ */
+
 const app = () => {
   return (
     <Router>
       <div className="container">
         <Menu />
+        <Redirect to="/" />
         <Switch>
           <Route path="/" component={ Home } exact />
           <Route path="/about" component={ About } exact />
