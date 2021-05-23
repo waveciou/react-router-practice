@@ -1,70 +1,105 @@
-# Getting Started with Create React App
+# React Router Practice
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+我個人的 [react-router](https://reactrouter.com/) 學習與練習紀錄。
 
-## Available Scripts
+## Installation
 
-In the project directory, you can run:
+可以使用 [Create React App](https://github.com/facebook/create-react-app) 搭配 `react-router` 來建立 Single Page Application (SPA)。
 
-### `yarn start`
+**NPM 初始化**
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+```sh
+$ npm init
+```
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+**安裝 Create React App**
 
-### `yarn test`
+```sh
+$ npx create-react-app demo-app
+$ cd demo-app
+```
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+**安裝 React Router**
 
-### `yarn build`
+```sh
+npm install react-router-dom
+```
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## Usage
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+### Route 配置
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+在 App Component 那一層，使用 `<Router>` 與 `<Route>` 標籤去設定頁面的 Component 以及其他的路由設定。
 
-### `yarn eject`
+```js
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Redirect
+} from 'react-router-dom';
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+const app = () => {
+  return (
+    <Router>
+      <div className="container">
+        <Redirect to="/" />
+        <Switch>
+          <Route exact path="/" component={ Home } />
+          <Route exact path="/about" component={ About } />
+          <Route path="/about/:id" component={ About } />
+          <Route path="/shop" component={ Shop } />
+        </Switch>
+      </div>
+    </Router>
+  );
+};
+```
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+### Hooks 說明
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+**Route**
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+Route 的 `exact` 屬性被添加，代表他是固定的 pathname，子路由被添加時會視為不同的 Router。
 
-## Learn More
+**Redirect**
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+Redirect 是設定重新導向的頁面，當單純的調整 URL 改變時 Hash 不會重新導向，但是 Query 會。
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+**useParams**
 
-### Code Splitting
+useParams 可以取得巢狀路由內子層的 router name，只僅限於監聽這個 Hooks 被呼叫的 component 所在的位置。
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+```js
+// app.js
+<Route path="/about/:id" component={ About } />
 
-### Analyzing the Bundle Size
+// about.js
+const { id } = useParams();
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+在 about component 呼叫 useParams 可以取得子路由的 Router Name。
 
-### Making a Progressive Web App
+**useRouteMatch**
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+useRouteMatch 可以取得 Route Component 設定的 Pathname 和 urlname (網址上所顯示的 pathname)，只僅限於監聽這個 Hooks 被呼叫的 component 所在的位置。
 
-### Advanced Configuration
+```js
+const { path, url } = useRouteMatch();
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+- path：在 Route Component 屬性上設定的 Path Name
+- url：在網址上所顯示的 Path Name
 
-### Deployment
+**useLocation**
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+useLocation 可以取得目前頁面的各項 Router 數據。
 
-### `yarn build` fails to minify
+```js
+const location = useLocation();
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+- hash：並不會修飾字串
+- pathname：在網址上所顯示的 Path Name
+- search：就是 Query String，並不會修飾字串
+- state
