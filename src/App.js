@@ -11,6 +11,7 @@ import {
   // useParams
 } from 'react-router-dom';
 
+import Layout from './components/layout';
 import Home from './components/home';
 import About from './components/about';
 import Shop from './components/shop';
@@ -24,7 +25,7 @@ import RouteMonitor from './components/routeMonitor';
 const app = () => {
   return (
     <Router>
-      <div className="container">
+      <Layout>
         <Menu />
         <Redirect to="/" />
         <Switch>
@@ -33,7 +34,7 @@ const app = () => {
           <Route path="/about/:id" component={ About } />
           <Route path="/shop" component={ Shop } />
         </Switch>
-      </div>
+      </Layout>
       { false ? <RouteMonitor /> : null }
     </Router>
   );
