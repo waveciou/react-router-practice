@@ -1,6 +1,7 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import React from 'react';
 import RouteMonitor from './routeMonitor';
+import RouteFromTo from './routeFromTo';
 import { useHistory } from 'react-router-dom';
 
 const about = () => {
@@ -16,6 +17,7 @@ const about = () => {
       <p>this is contnet in about page</p>
       <button onClick={ gotoAnotherPath }>Go To Shop Page</button>
       <RouteMonitor />
+      <RouteFromTo />
     </div>
   )
 };

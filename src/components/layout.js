@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react-hooks/rules-of-hooks */
 import React from 'react';
 import { useState, useEffect } from 'react';
@@ -24,7 +25,6 @@ const layout = ({ children }) => {
     }
 
     setLocation(_location);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pathname]);
 
   useEffect(() => {
