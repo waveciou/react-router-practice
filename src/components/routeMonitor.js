@@ -7,7 +7,7 @@ import { setLoginState } from '../store/slice/accountSlice';
 
 const routeMonitor = () => {
   // Redux
-  const isLogin = useSelector(state => state.account.isLogin);
+  const { isLogin } = useSelector(state => state.account);
   const dispatch = useDispatch();
 
   /*

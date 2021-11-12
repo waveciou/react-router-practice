@@ -1,6 +1,9 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import React, { useMemo } from 'react';
+import { useSelector } from 'react-redux';
+
 import './css/App.css';
+
 import {
   BrowserRouter as Router,
   Switch,
@@ -22,11 +25,18 @@ import allRouter from './router';
  */
 
 const app = () => {
+  // Redux
+  const { isLogin } = useSelector(state => state.account);
+
   const routePaste = useMemo(() => {
-    return allRouter.map(({ name, path, component, exact}) => {
-      return <Route key={name} path={path} component={component} exact={exact} />
+    return allRouter.map(({ name, path, component, exact, needAuth}) => {
+      let renderComponent = component;
+      if (!isLogin && needAuth) {
+        renderComponent = <Redirect to="/login" />
+      }
+      return <Route key={name} path={path} component={renderComponent} exact={exact} />
     });
-  }, []);
+  }, [isLogin]);
 
   return (
     <Router>
