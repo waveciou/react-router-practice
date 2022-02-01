@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react-hooks/rules-of-hooks */
 import React, { useMemo } from 'react';
 import { useSelector } from 'react-redux';
@@ -16,7 +17,7 @@ import {
 
 import Layout from './components/layout';
 import Menu from './components/menu';
-import RouteMonitor from './components/routeMonitor';
+// import RouteMonitor from './components/routeMonitor';
 
 import allRouter from './router';
 
@@ -32,7 +33,7 @@ const app = () => {
     return allRouter.map(({ name, path, component, exact, needAuth}) => {
       let renderComponent = component;
       if (!isLogin && needAuth) {
-        renderComponent = <Redirect to="/login" />
+        renderComponent = () => <Redirect to="/login" />
       }
       return <Route key={name} path={path} component={renderComponent} exact={exact} />
     });
@@ -47,7 +48,6 @@ const app = () => {
           { routePaste }
         </Switch>
       </Layout>
-      { false ? <RouteMonitor /> : null }
     </Router>
   );
 };
